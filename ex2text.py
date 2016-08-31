@@ -5,13 +5,19 @@ from tkinter.filedialog import askopenfilename
 """ Funciones """
 
 def buscar_archivo():
+    """ declaramos la variable ruta como global para no tener que retornar nada
+    e igualarla a la ruta del archivo seleccionado altiro"""
+    global ruta
     buscar_archivo = askopenfilename(filetypes=(("Template files", "*.tplate"),("HTML files", "*.html;*.htm"),("All files", "*.*")))
+    """ Igualamos la variable ruta a la ruta del archivo que se selecciono, ahora ruta no deja de ser un string vacio"""
+    ruta = buscar_archivo
+    """ en el entry ruta_origen insertamos el string de la ruta para que aparesca en el cuadro """
+    ruta_origen.insert(0,ruta)
     return 0
 
 
-""" los metodos o las funciones deben ir arriba del mainloop, porque si no el interprete 
-no los lee ya que se queda en el bucle infinito que genera el mainloop y no ve que existe mas abajo,
-por eso decia que no estaba definida, cuando le pases el metodo o funcion al boton que quieres que ejecute coloca solo el nombre sin los parentesis(),
+""" los metodos o las funciones deben ir arriba del mainloop, lo mas ordenado es al principio,
+cuando le pases el metodo o funcion al boton que quieres que ejecute coloca solo el nombre sin los parentesis(),
 si no el interprete asume que le estas dando la orden que la ejecute, por eso se abria el cuadro de dialogo altiro. """
 
 maestro = Tk()
@@ -22,9 +28,13 @@ frame_archivos       = LabelFrame(maestro , text="primer frame", pady=13)
 
 #widgets de frame eleccion de archivos
 
+""" Declaramos la variable ruta como un str vacio """
+
+ruta = ""
 texto_origen  = Label(frame_archivos,  text = "Seleccione Archivo")
 texto_destino = Label(frame_archivos,  text = "Seleccione Destino")
-ruta_origen   = Entry(frame_archivos,  width=50)
+""" Le decimos al entry que el texto que posea lo almacene en la variable ruta"""
+ruta_origen   = Entry(frame_archivos,  width=50, textvariable=ruta)
 ruta_destino  = Entry(frame_archivos,  width=50)
 
 #este boton quisiera que invocara el metodo busqueda de archivos, pero no se como invocar el comando
@@ -86,6 +96,5 @@ boton_comenzar = Button(frame_comienzo_proceso,text="Comenzar")
 #distribucion de los widgets
 frame_comienzo_proceso.grid(row = 1 , column =1)
 boton_comenzar.pack()
-
 
 maestro.mainloop()
